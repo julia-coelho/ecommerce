@@ -38,18 +38,19 @@ class Payment:
         #valida logica pagamento so deve ser criado para pedidos nao-gratuitos
         if total == 0:
             raise ValueError(f"Total a ser pago de pagamento inválido: R$ {total:.2f}. Total de pagamento deve ser maior que R$ 0.00")
+
         #valida tipo de pagamento
         if not PaymentType.is_valid(type):
             raise ValueError(f"Tipo de pagamento inválido: {type}. Tipo de pagamento pode ser: 'debito', 'credito', 'boleto', 'pix' ou 'paypal'")
-        
+
         #valida status
         if not PaymentStatus.is_valid(status):
             raise ValueError(f"Status de pagamento inválido: {status}. Status de pagamento pode ser 'pendente', 'pago', 'falhou', 'cancelado' ou 'em disputa'")
         
         #valida logica de consistencia
-        if (status != PaymentStatus.PAID) and (payment_date is not None):
-            raise ValueError("Data do pagamento só deve existir se o status do pagamento for 'pago'")               
-        
+        if (status != PaymentStatus.PAID and status != PaymentStatus.DISPUTED) and (payment_date is not None):
+            raise ValueError("Data do pagamento só deve existir se o status do pagamento for 'pago' ou 'em disputa'")
+                     
         #atribuicoes
         self.id = id
         self.order = order
@@ -119,6 +120,7 @@ class Payment:
         if self.status != PaymentStatus.DISPUTED:
             raise ValueError(f"Apenas pagamentos em status 'em disputa' podem perder disputa para serem cancelados. Status atual do pagamento: {self.status}")
         self.status = PaymentStatus.CANCELED
+        self.payment_date = None
 
     def is_successful(self) -> bool:
         """retorna true se o status de payment eh 'paid', false em qualquer outro caso"""

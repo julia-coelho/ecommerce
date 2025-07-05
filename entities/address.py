@@ -51,11 +51,11 @@ class Address:
         """transforma o endereco em um dicionario"""
         dicionary_address = {
             "cep" : self.cep,
-            "estado" : self.state,
-            "cidade" : self.city,
-            "bairro" : self.district,
-            "logradouro" : self.street,
-            "numero" : self.number,
+            "estado" : self.state.upper(),
+            "cidade" : self.city.upper(),
+            "bairro" : self.district.upper(),
+            "logradouro" : self.street.upper(),
+            "numero" : self.number.upper(),
         }
         if self.complement.strip():
             dicionary_address["complemento"] = self.complement   

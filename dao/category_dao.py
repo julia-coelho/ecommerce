@@ -27,40 +27,38 @@ class CategoryDAO(BaseDAO):
     
 
     def create_new(self, object_entity: Category) -> Tuple[bool, str]:
-        name = n.normalize_for_storage(object_entity.name)
         try:
             cursor = self.conexao.cursor()
 
             cursor.execute("INSERT INTO categorias (nome) VALUES(?)",
-                           (name,))
+                           (object_entity.name,))
             self.conexao.commit()
-            return True, f"Nova categoria '{name}' foi criada com sucesso"
+            return True, f"Nova categoria '{object_entity.name}' foi criada com sucesso"
         
         except sqlite3.IntegrityError as e:
             if "UNIQUE constraint failed" in str(e):
-                return False, f"Erro: A categoria '{name}' já existe.  Verifique se está tentando duplicar uma categoria já registrada"
+                return False, f"Erro: A categoria '{object_entity.name}' já existe.  Verifique se está tentando duplicar uma categoria já registrada"
             else:
-                return False, f"Erro ao criar nova categoria '{name}': {e}"
+                return False, f"Erro ao criar nova categoria '{object_entity.name}': {e}"
         except sqlite3.Error as e:
             return False, f"Erro Inesperado: {e}"
     
 
     def update_by_id(self, id, object_entity: Category) -> Tuple[bool, str]:
-        name = n.normalize_for_storage(object_entity.name)
         try:
             cursor = self.conexao.cursor()
 
             cursor.execute("UPDATE categorias SET nome = ? WHERE id = ?", 
-                           (name, id))
+                           (object_entity.name, id))
             self.conexao.commit()
 
             if cursor.rowcount == 0:
                 return False, f"Erro: Categoria de ID {id} não encontrada"
-            return True, f"Categoria #{id} ({name}) foi atualizada com sucesso!"
+            return True, f"Categoria #{id} ({object_entity.name}) foi atualizada com sucesso!"
         
         except sqlite3.IntegrityError as e:
             if "UNIQUE constraint failed" in str(e):
-                return False, f"Erro: a categoria '{name}' já existe. Verifique se está tentando duplicar uma categoria já registrada"
+                return False, f"Erro: a categoria '{object_entity.name}' já existe. Verifique se está tentando duplicar uma categoria já registrada"
             return False, f"Erro ao atualizar categoria #{id}: {e}"
         except sqlite3.Error as e:
             return False, f"Erro Inesperado: {e}"

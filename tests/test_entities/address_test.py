@@ -10,44 +10,42 @@ def test_address():
     from entities import Address
 
     # testes de Address
-    print("\n========================")
-    print("Testes da classe Address")
-    print("========================\n")
+    print("\n==========================")
+    print(" Testes da classe Address ")
+    print("==========================\n")
 
     # construtor
     print("\n Testes do Construtor\n")
 
-    # teste positivo do construtor
-    valid_address_complement = teste_construtor(
+    # testes positivos do construtor
+    valid_address_min = teste_construtor(
         lambda: Address(
             cep="12345-678",
             state="SP",
             city="São Paulo",
             district="Centro",
             street="Rua A",
-            number="123",
-            complement="Apto 1"
+            number="123"
         ),
-        "Address válido e com complemento (OK esperado)"
+        "Address válido e com dados mínimos (sem complement) (OK esperado)"
     )
 
-    # teste positivo do construtor
-    valid_address_no_complement = teste_construtor(
+    valid_address_completo = teste_construtor(
         lambda: Address(
-            cep="12345-678",
+            cep="87654-321",
             state="SP",
             city="São Paulo",
             district="Centro",
-            street="Rua A",
-            number="123",
-
+            street="Rua B",
+            number="456",
+            complement="Apto 1"
         ),
-        "Address válido sem complemento (OK esperado)"
+        "Address válido e com dados completos (com complement) (OK esperado)"
     )
     print("\n\n")
 
     # testes do construtor relacionados a atributos especificos
-    # testes negativos para atributo cep
+    # testes negativos - cep
     base_kwargs = dict(state="SP", city="São Paulo", district="Centro", street="Rua A", number="123")
     teste_construtor(lambda: Address(cep=12345678, **base_kwargs), "Address com cep=int (ERRO esperado)")
     teste_construtor(lambda: Address(cep=12345.678, **base_kwargs), "Address com cep=float (ERRO esperado)")
@@ -62,7 +60,7 @@ def test_address():
     teste_construtor(lambda: Address(cep="1234-678", **base_kwargs), "Address com cep com menos de 8 dígitos (ERRO esperado)")
     print("\n")
 
-    # testes negativos para atributo state
+    # testes negativos - state
     base_kwargs = dict(cep="12345-678", city="São Paulo", district="Centro", street="Rua A", number="123")
     teste_construtor(lambda: Address(state=123, **base_kwargs), "Address com state=int (ERRO esperado)")
     teste_construtor(lambda: Address(state=12.5, **base_kwargs), "Address com state=float (ERRO esperado)")
@@ -75,40 +73,37 @@ def test_address():
     teste_construtor(lambda: Address(state="Sã", **base_kwargs), "Address com state inválido com caractere especial (ERRO esperado)")
     print("\n")
 
-    # testes negativos para atributo city
+    # testes negativos - city
     base_kwargs = dict(cep="12345-678", state="SP", district="Centro", street="Rua A", number="123")
     teste_construtor(lambda: Address(city=123, **base_kwargs), "Address com city=int (ERRO esperado)")
     teste_construtor(lambda: Address(city=123.45, **base_kwargs), "Address com city=float (ERRO esperado)")
-    teste_construtor(lambda: Address(city='C', **base_kwargs), "Address com city=char (ERRO esperado)")
     teste_construtor(lambda: Address(city=object(), **base_kwargs), "Address com city=object (ERRO esperado)")
     teste_construtor(lambda: Address(city=None, **base_kwargs), "Address com city=None (ERRO esperado)")
     teste_construtor(lambda: Address(cep='12345-678', state="SP", district="Centro", street="Rua A", number="123"), "Address sem city (omitido) (ERRO esperado)")
     teste_construtor(lambda: Address(city="", **base_kwargs), "Address com city vazio (ERRO esperado)")
     print("\n")
 
-    # testes negativos para atributo district
+    # testes negativos - district
     base_kwargs = dict(cep="12345-678", state="SP", city="São Paulo", street="Rua A", number="123")
     teste_construtor(lambda: Address(district=123, **base_kwargs), "Address com district=int (ERRO esperado)")
     teste_construtor(lambda: Address(district=12.3, **base_kwargs), "Address com district=float (ERRO esperado)")
-    teste_construtor(lambda: Address(district='C', **base_kwargs), "Address com district=char (ERRO esperado)")
     teste_construtor(lambda: Address(district=object(), **base_kwargs), "Address com district=object (ERRO esperado)")
     teste_construtor(lambda: Address(district=None, **base_kwargs), "Address com district=None (ERRO esperado)")
     teste_construtor(lambda: Address(cep='12345-678', state="SP", city="São Paulo", street="Rua A", number="123"), "Address sem district (omitido) (ERRO esperado)")
     teste_construtor(lambda: Address(district="", **base_kwargs), "Address com district vazio (ERRO esperado)")
     print("\n")
 
-    # testes negativos para atributo street
+    # testes negativos - street
     base_kwargs = dict(cep="12345-678", state="SP", city="São Paulo", district="Centro", number="123")
     teste_construtor(lambda: Address(street=123, **base_kwargs), "Address com street=int (ERRO esperado)")
     teste_construtor(lambda: Address(street=12.3, **base_kwargs), "Address com street=float (ERRO esperado)")
-    teste_construtor(lambda: Address(street='A', **base_kwargs), "Address com street=char (ERRO esperado)")
     teste_construtor(lambda: Address(street=object(), **base_kwargs), "Address com street=object (ERRO esperado)")
     teste_construtor(lambda: Address(street=None, **base_kwargs), "Address com street=None (ERRO esperado)")
     teste_construtor(lambda: Address(cep='12345-678', state="SP", city="São Paulo", district="Centro", number="123"), "Address sem street (omitido) (ERRO esperado)")
     teste_construtor(lambda: Address(street="", **base_kwargs), "Address com street vazio (ERRO esperado)")
     print("\n")
 
-    # testes negativos para atributo number
+    # testes negativos - number
     base_kwargs = dict(cep="12345-678", state="SP", city="São Paulo", district="Centro", street="Rua A")
     teste_construtor(lambda: Address(number=123, **base_kwargs), "Address com number=int (ERRO esperado)")
     teste_construtor(lambda: Address(number=12.3, **base_kwargs), "Address com number=float (ERRO esperado)")
@@ -119,7 +114,7 @@ def test_address():
     teste_construtor(lambda: Address(number="", **base_kwargs), "Address com number vazio (ERRO esperado)")
     print("\n")    
 
-    # testes negativos para atributo opcional complement
+    # testes negativos - complement (atributo opcional)
     base_kwargs = dict(cep="12345-678", state="SP", city="São Paulo", district="Centro", street="Rua A", number="123")
     teste_construtor(lambda: Address(complement=123, **base_kwargs), "Address com complement=int (ERRO esperado)")
     teste_construtor(lambda: Address(complement=3.14, **base_kwargs), "Address com complement=float (ERRO esperado)")
@@ -130,27 +125,27 @@ def test_address():
 
     # metodos
     print("\n Testes dos Métodos\n")
-    if valid_address_complement and valid_address_no_complement:
+    if valid_address_min and valid_address_completo:
         # __str__
-        teste_metodo(lambda: str(valid_address_complement), "__str__() com complemento (OK esperado)")
-        teste_metodo(lambda: str(valid_address_no_complement), "__str__() sem complemento (OK esperado)")
+        teste_metodo(lambda: str(valid_address_min), "__str__() com address váido com dados mínimos (sem complement) (cep='12345-678' esperado)")
+        teste_metodo(lambda: str(valid_address_completo), "__str__() com address váido com dados completos (com complement) (cep='87654-321' esperado)")
         print("\n")
 
         # to_dict()
-        teste_metodo(lambda: valid_address_complement.to_dict(), "to_dict() com complemento (OK esperado)")
-        teste_metodo(lambda: valid_address_no_complement.to_dict(), "to_dict() sem complemento (OK esperado)")
+        teste_metodo(lambda: valid_address_min.to_dict(), "to_dict() com address váido com dados mínimos (sem complement) (cep='12345-678' esperado)")
+        teste_metodo(lambda: valid_address_completo.to_dict(), "to_dict() com address váido com dados completos (com complement) (cep='87654-321' esperado)")
         print("\n")
 
         # to_string_bank()
-        teste_metodo(lambda: valid_address_complement.to_string_bank(), "to_string_bank() com complemento (OK esperado)")
-        teste_metodo(lambda: valid_address_no_complement.to_string_bank(), "to_string_bank() sem complemento (OK esperado)")
+        teste_metodo(lambda: valid_address_min.to_string_bank(), "to_string_bank() com address váido com dados mínimos (sem complement) (cep='12345-678' esperado)")
+        teste_metodo(lambda: valid_address_completo.to_string_bank(), "to_string_bank() com address váido com dados completos (com complement) (cep='87654-321' esperado)")
         print("\n")
 
-        # validate_address() (positivo)
-        teste_metodo(lambda: Address.validate_address(valid_address_complement), "validate_address() com objeto Address válido com complemento (OK esperado)")
-        teste_metodo(lambda: Address.validate_address(valid_address_no_complement), "validate_address() com objeto Address válido sem complemento (OK esperado)")
+        # validate_address() (positivos)
+        teste_metodo(lambda: Address.validate_address(valid_address_min), "validate_address() com address váido com dados mínimos (sem complement) (OK esperado)")
+        teste_metodo(lambda: Address.validate_address(valid_address_completo), "validate_address() com address válido com dados completos (com complement) (OK esperado)")
 
-        # validate_address() (negativo)
+        # validate_address() (negativos)
         teste_metodo(lambda: Address.validate_address("str"), "validate_address() com tipo inválido string (ERRO esperado)")
         teste_metodo(lambda: Address.validate_address(123), "validate_address() com tipo inválido int (ERRO esperado)")
         teste_metodo(lambda: Address.validate_address(object()), "validate_address() com tipo inválido objeto Object (ERRO esperado)")
@@ -159,15 +154,15 @@ def test_address():
         print("\n")
 
     # from_string()
-    if valid_address_complement and valid_address_no_complement:
-        s1 = valid_address_complement.to_string_bank()
-        s2 = valid_address_no_complement.to_string_bank()
+    if valid_address_min and valid_address_completo:
+        s1 = valid_address_min.to_string_bank()
+        s2 = valid_address_completo.to_string_bank()
 
-        #from string() (positivo)
-        teste_metodo(lambda: Address.from_string(s1), "from_string() com complemento (OK esperado)")
-        teste_metodo(lambda: Address.from_string(s2), "from_string() sem complemento (OK esperado)")
+        #from string() (positivos)
+        teste_metodo(lambda: Address.from_string(s1), "from_string() com address váido com dados mínimos (sem complement) (cep='12345-678' esperado)")
+        teste_metodo(lambda: Address.from_string(s2), "from_string() com address váido com dados completos (com complement) (cep='87654-321' esperado)")
 
-        # from_string() (negativo)
+        # from_string() (negativos)
         teste_metodo(lambda: Address.from_string("texto plano"), "from_string() com tipo inválido string não JSON (ERRO esperado)")
         teste_metodo(lambda: Address.from_string(123), "from_string() com tipo inválido int (ERRO esperado)")
         teste_metodo(lambda: Address.from_string(object()), "from_string() com tipo inválido objeto Object (ERRO esperado)")

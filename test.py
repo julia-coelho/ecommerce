@@ -17,9 +17,15 @@ if __name__ == "__main__":
         print("(5) - Finalizar Programa\n")
 
         #usuario decide opcao 
-        try:
-            option = int(input("Opção desejada: "))
+        answer = input("Opção desejada: ")
 
+        try:
+            option = int(answer)
+        except ValueError:
+            print("\nErro: Digite apenas números válidos")
+            continue
+
+        try:
             #match-case para definir o que fazer
             match option:
                 case 1:
@@ -35,5 +41,5 @@ if __name__ == "__main__":
                 case _:
                     print("Opção inválida\n")
 
-        except ValueError:
-            print("\nErro: Digite apenas números válidos\n")
+        except Exception as e:
+            print(f"\n[Erro interno a test.py]: {e}\n")

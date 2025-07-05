@@ -55,11 +55,13 @@ class OrderDAO(BaseDAO):
         try:
             cursor = self.conexao.cursor()
 
+            order_date_iso = object_entity.date.to_iso()
+
             cursor.execute("""
                     INSERT INTO pedidos
                         (cliente_id, total_final, total_sem_desconto, desconto_global, data)
                         VALUES (?, ?, ?, ?, ?)
-                        """, (object_entity.customer.id, object_entity.total, object_entity.full_price, object_entity.global_discount, object_entity.date))
+                        """, (object_entity.customer.id, object_entity.total, object_entity.full_price, object_entity.global_discount, order_date_iso))
             self.conexao.commit()
             return True, f"Novo pedido (de cliente #{object_entity.customer.id}, nome {object_entity.customer.name}) foi criado com sucesso"
         

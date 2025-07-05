@@ -124,6 +124,20 @@ class CustomerDAO(BaseDAO):
             asc_or_desc="ASC"
     ) -> List[Tuple[int, str, str, int, str, str, str, int, float, float, str, float, float]]:
         cursor = self.conexao.cursor()
+
+        #verifica se register_date_before > register_date_after
+        if register_date_before and register_date_after:
+            register_date_before_iso = register_date_before.to_iso()
+            register_date_after_iso = register_date_after.to_iso()
+            if register_date_before_iso < register_date_after_iso:
+                raise ValueError("Não é possível filtrar clientes com a data de registro 'até' posterior à data de registro 'a partir de'")
+        
+        #verifica se last_order_before > last_order_after
+        if last_order_before and last_order_after:
+            last_order_before_iso = last_order_before.to_iso()
+            last_order_after_iso = last_order_after.to_iso()
+            if last_order_before_iso < last_order_after_iso:
+                raise ValueError("Não é possível filtrar clientes com a data do último pedido 'até' posterior à data do último pedido 'a partir de'")
         
         #dicionario para traduzir order_by_type em opcoes validas para o banco
         dic_columns_bank = {
@@ -187,11 +201,11 @@ class CustomerDAO(BaseDAO):
             consult_sql += f" AND {clause}"
             parameters.extend(parameters_clause)
 
-        #se birthday existir, poe birthday em parameters tambem
+        #se birthday existir, poe birthday em parameters tambem (apenas mes e ano)
         if birthday:
-            birthday_iso = birthday.to_iso()
-            consult_sql += " AND c.aniversario = ?"
-            parameters.append(birthday_iso)
+            birthday_mmdd = birthday.to_iso()[5:]  # extrai "MM-DD" de "YYYY-MM-DD"
+            consult_sql += " AND strftime('%m-%d', c.aniversario) = ?"
+            parameters.append(birthday_mmdd)
 
         #se register_date existir, poe register_date em parameters tambem
         if register_date:
@@ -212,10 +226,11 @@ class CustomerDAO(BaseDAO):
             parameters.append(register_date_after_iso)
 
         #se address_part existir, poe address_part em parameters
-        if address_part:
-            address_part_param = f"%{address_part.lower()}%"
-            consult_sql += " AND (LOWER(c.endereco) LIKE ?)"
-            parameters.append(address_part_param)
+        if address_part and address_part.strip():
+            clause = n.build_keyword_sql_clause(["c.endereco"])
+            consult_sql += f" AND {clause}"
+            parameters_clause = n.build_keyword_parameters_sql(address_part, 1)
+            parameters.extend(parameters_clause)
 
         #se has_payment_pending existir, poe has_payment_pending em parameters tambem
         if has_payment_pending:
@@ -252,8 +267,8 @@ class CustomerDAO(BaseDAO):
                     HAVING
                         COUNT(pd.id) >= ?
                         AND COUNT(pd.id) <= ?
-                        AND SUM(pd.total_final) >= ?
-                        AND SUM(pd.total_final) <= ?
+                        AND COALESCE(SUM(pd.total_final), 0) >= ?
+                        AND COALESCE(SUM(pd.total_final), 0) <= ?
                         AND COALESCE(SUM(pd.total_final)/NULLIF(COUNT(pd.id), 0), 0) >= ?
                         AND COALESCE(SUM(pd.total_final)/NULLIF(COUNT(pd.id), 0), 0) <= ?
                         AND strftime('%Y', 'now') - strftime('%Y', c.aniversario) - 

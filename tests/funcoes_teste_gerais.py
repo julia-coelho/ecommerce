@@ -36,7 +36,6 @@ def teste_metodo_by_id_dao(chamada_metodo, descricao):
         print(f"[ERRO Exception] {descricao} -> {e}")
 
 def ask_if_clean_bank(classe):
-    import unicodedata
     while True:
         answer = input(f"Gostaria de limpar o banco de dados? Recomenda-se limpar o banco para testar a classe {classe} devidamente.\n")
         answer = n.normalize(answer)
@@ -45,9 +44,19 @@ def ask_if_clean_bank(classe):
             return
         elif answer=="NAO":
             return
-        print("Por favor, insira uma resposta válida.\n")
+        print("\nPor favor, insira uma resposta válida.\n")
         
 def clean_bank():
     import os
     if os.path.exists("ecommerce.db"):
         os.remove("ecommerce.db")
+
+def ask_if_continue(classe) -> bool:
+    while True:
+        answer = input(f"Gostaria de seguir para o teste da {classe}?\n")
+        answer = n.normalize(answer)
+        if answer=="SIM":
+            return True
+        elif answer=="NAO":
+            return False
+        print("\nPor favor, insira uma resposta válida.\n")

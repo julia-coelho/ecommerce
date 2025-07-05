@@ -11,9 +11,9 @@ def test_product_dao(conexao):
     from entities import Category, Product, Date
     from entities.product_batch import ProductBatch
 
-    print("\n========================")
-    print("Testes da classe ProductDAO")
-    print("========================\n")
+    print("\n=============================")
+    print(" Testes da classe ProductDAO ")
+    print("=============================\n")
 
     cat_dao = CategoryDAO(conexao)
     prodbat_dao = ProductBatchDAO(conexao)
@@ -36,7 +36,7 @@ def test_product_dao(conexao):
                     print(f"{id_:<5} {nome:<30} {marca:<22} {cat_nome:<15} | {vazio:<9} {quantidade:<11} | {vazio:<3} R$ {preco:<7.2f} - {vazio:<2} R$ {desc:<6.2f} = {vazio:<2} R$ {preco_final:<8.2f}")
                 print("\n")
         except Exception as e:
-            print(f"[ERRO Exception] list() -> {e}")
+            print(f"[ERRO Exception] list() -> {e}\n")
 
     # garantir categorias
     cat_dao.create_new(Category(name="Livros"))
@@ -62,7 +62,7 @@ def test_product_dao(conexao):
 
     # testes de delete_by_id()
     print("\nTestes de delete_by_id()")
-    teste_metodo_by_id_dao(lambda: dao.create_new(Product("Produto Temporário", "Marca X", cat_tec, 25.0)), "novo produto 'Produto Temporário'")
+    teste_metodo_by_id_dao(lambda: dao.create_new(Product("Produto Temporario", "Marca X", cat_tec, 25.0)), "novo produto 'Produto Temporario'")
     teste_metodo_by_id_dao(lambda: dao.delete_by_id(3), "delete_by_id com dados (id) válido (delete de 'ID 3' esperado)")
     teste_metodo_by_id_dao(lambda: dao.delete_by_id(999), "delete_by_id inexistente (ERRO esperado)")
 
@@ -71,14 +71,23 @@ def test_product_dao(conexao):
     teste_metodo_by_id_dao(lambda: dao.find_by_id(1), "find_by_id com dado (id) válido (produto 'Clean Code', marca 'Robert C. Martin' esperado)")
     teste_metodo_by_id_dao(lambda: dao.find_by_id(99), "find_by_id com ID inexistente (ERRO esperado)")
 
+    # testes de outros metodos
+    print("\n _get_table() testada indiretamente pelos testes de delete_by_id() e find_by_id()")
+    print("\n _row_to_object() testada indiretamente pelos testes de find_by_id()")
+    print("\n _row_to_full_object() de ProductDAO é igual a row_to_object(), já testado")
+    print("\n find_by_id_full_object() de ProductDAO é igual a find_by_id(), já testada")
+
     # testes de list()
     print("\nTestes de list()")
 
+    # cria produtos distintos para testes de list()
     dao.create_new(Product("The Pragmatic Programmer", "Andy Hunt", cat_books, 120.0, unit_discount=20.0))
     dao.create_new(Product("Estruturas de Dados", "Nivio Ziviani", cat_books, 85.0, unit_discount=5.0))
     dao.create_new(Product("Teclado Gamer", "Razer", cat_tec, 350.0, unit_discount=50.0))
     dao.create_new(Product("Mouse Sem Fio", "Logitech", cat_tec, 150.0, unit_discount=25.0))
     dao.create_new(Product("Tela 24 polegadas", "Logitech", cat_tec, 180.0, unit_discount=15.0))
+    dao.create_new(Product("C++ Metaprogramming", "Machine L", cat_books, 130.0, unit_discount=10.0))
+    dao.create_new(Product("Super Easy R", "James Hunter", cat_books, 150.0, unit_discount=15.0))
 
     prod_cleancode = get_prod(conexao, 1)
 
@@ -86,14 +95,14 @@ def test_product_dao(conexao):
     prod_mouse = get_prod(conexao, 7)
     prod_tela = get_prod(conexao, 8)
 
+    # cria lotes distintos para testes de list()
     prodbat_dao.create_new(ProductBatch(prod_teclado, 'TEC1', Date(1, 8, 2024), 5))
     prodbat_dao.create_new(ProductBatch(prod_mouse, 'MOS3', Date(1, 1, 2024), 15))
     prodbat_dao.create_new(ProductBatch(prod_tela, 'TEL2', Date(1, 6, 2023), 2))
-
     prodbat_dao.create_new(ProductBatch(prod_cleancode, 'B123', Date(1, 6, 2002), 8))
 
 
-    print("\nNovos produtos e lotes para popular tabela criados")
+    print("\nNovos produtos e lotes para popular tabelas criados")
 
     i=1
     filters = dict()
@@ -107,18 +116,18 @@ def test_product_dao(conexao):
     print_list_products(filters)
     i += 1
 
-    print(f"\n[{i}] list() com category_id=2, 'Tecnologia' (lista populada esperada)")
+    print(f"\n[{i}] list() com category_id=2, 'Tecnologia' (lista com 4 produtos esperada)")
     filters = dict(category_id=2)
     print_list_products(filters)
     i += 1
 
-    print(f"\n[{i}] list() com category_id=2, 'Tecnologia', com min_quantity=1 (lista populada esperada)")
-    filters = dict(category_id=2, min_quantity=3)
+    print(f"\n[{i}] list() com category_id=2, 'Tecnologia', com min_quantity=1 (lista com 2 produtos esperada)")
+    filters = dict(category_id=2, min_quantity=1)
     print_list_products(filters)
     i += 1
 
-    print(f"\n[{i}] list() com category_id=2, 'Tecnologia', com min_quantity=3 e max_quantity=10 (lista com 1 produto esperada)")
-    filters = dict(category_id=2, min_quantity=3, max_quantity=10)
+    print(f"\n[{i}] list() com category_id=2, 'Tecnologia', com min_quantity=3 e max_quantity=20 (lista com 1 produto esperada)")
+    filters = dict(category_id=2, min_quantity=3, max_quantity=20)
     print_list_products(filters)
     i += 1
 
@@ -137,13 +146,38 @@ def test_product_dao(conexao):
     print_list_products(filters)
     i += 1
 
-    print(f"\n[{i}] list() com min_unit_price=100.0 (lista populada esperada)")
+    print(f"\n[{i}] list() com only_inventory=True e noinventory=True (ERRO esperado)")
+    filters = dict(only_inventory=True, no_inventory=True)
+    print_list_products(filters)
+    i += 1
+
+    print(f"\n[{i}] list() com min_unit_price=100.0 (lista com 7 produtos esperada)")
     filters = dict(min_unit_price=100.0)
     print_list_products(filters)
     i += 1
 
-    print(f"\n[{i}] list() com no_inventory=True (lista)")
-    filters = dict(no_inventory=True)
+    print(f"\n[{i}] list() com min_unit_price=100.0 e max_unit_price=200.0 (lista com 6 produtos esperada)")
+    filters = dict(min_unit_price=100.0, max_unit_price=200.0)
+    print_list_products(filters)
+    i += 1
+
+    print(f"\n[{i}] list() com min_unit_price=100.0, max_unit_price=200.0 e min_unit_discount=12.0 (lista com 5 produtos esperada)")
+    filters = dict(min_unit_price=100.0, max_unit_price=200.0, min_unit_discount=12.0)
+    print_list_products(filters)
+    i += 1
+
+    print(f"\n[{i}] list() com min_unit_price=100.0, max_unit_price=200.0, min_unit_discount=12.0 e max_unit_discount=20.0 (lista com 4 produtos esperada)")
+    filters = dict(min_unit_price=100.0, max_unit_price=200.0, min_unit_discount=12.0, max_unit_discount=20.0)
+    print_list_products(filters)
+    i += 1
+
+    print(f"\n[{i}] list() com min_unit_price=100.0, max_unit_price=200.0, min_unit_discount=12.0, max_unit_discount=20.0 e min_final_unit_price=105.0 (lista com 2 produtos esperada)")
+    filters = dict(min_unit_price=100.0, max_unit_price=200.0, min_unit_discount=12.0, max_unit_discount=20.0, min_final_unit_price=105.0)
+    print_list_products(filters)
+    i += 1
+
+    print(f"\n[{i}] list() com min_unit_price=100.0, max_unit_price=200.0, min_unit_discount=12.0, max_unit_discount=20.0, min_final_unit_price=105.0 e max_final_unit_price=150.0 (lista com 1 produto esperada)")
+    filters = dict(min_unit_price=100.0, max_unit_price=200.0, min_unit_discount=12.0, max_unit_discount=20.0, min_final_unit_price=105.0, max_final_unit_price=150.0)
     print_list_products(filters)
     i += 1
 
@@ -154,3 +188,14 @@ def test_product_dao(conexao):
             filters = dict(order_by_type=f'{column}', asc_or_desc=f'{direction}')
             print_list_products(filters)
             i+=1
+
+    print(f"\n[{i}] list() com ordenação por coluna inválida (lista ordenada por coluna id ASC esperada)")
+    filters = dict(order_by_type='order')
+    print_list_products(filters)
+    i+=1
+
+
+    print(f"\n[{i}] list() com ordenação por direção inválida (lista ordenada por id em direção ascendente esperada)")
+    filters = dict(asc_or_desc='crescente')
+    print_list_products(filters)
+    i+=1

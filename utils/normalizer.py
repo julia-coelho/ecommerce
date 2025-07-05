@@ -23,17 +23,17 @@ class Normalizer:
     
     @staticmethod
     def normalize_match_keyword_sql(text: str) -> str:
-        """remove acentos, transforma em lowercase e envolve com % para LIKE - feito para comparacoes *dentro* do sql"""
-        text = Normalizer.normalize_for_storage(text)
-        return f"%{text.lower()}%"
+        """remove acentos e envolve com % para LIKE - feito para comparacoes *dentro* do sql"""
+        text = Normalizer.normalize(text)
+        return f"%{text}%"
 
     @staticmethod
     def build_keyword_sql_clause(field_names: list[str]) -> str:
         """
         retorna uma clausula sql para busca com LIKE em campos especificados,
-        como: "(LOWER(nome) LIKE ? OR LOWER(email) LIKE ?)"
+        como: "(UPPER(nome) LIKE ? OR UPPER(email) LIKE ?)"
         """
-        clause = " OR ".join([f"LOWER({field}) LIKE ?" for field in field_names])
+        clause = " OR ".join([f"UPPER({field}) LIKE ?" for field in field_names])
         return f"({clause})"
 
     @staticmethod

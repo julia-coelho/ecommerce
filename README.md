@@ -103,8 +103,8 @@ Captura de exceções nos endpoints e retorno de mensagens HTTP apropriadas.
 ### 6. Adicionar documentação da API
 Documentar os endpoints usando `README`, Swagger ou outro recurso.
 
-### 7. Criar interface local com Tkinter
-Desenvolvimento de uma interface gráfica para uso local do sistema.
+### 7. Desenvolver uma interface via aplicação web
+Criação de uma interface acessível por navegador, permitindo o uso remoto e intuitivo do sistema.
 
 ---
 
@@ -152,4 +152,3 @@ pip install flask
 
 Júlia Coelho Rodrigues  
 RA: 22408388
-

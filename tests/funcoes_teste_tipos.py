@@ -15,6 +15,7 @@ from tests.test_entities.product_batch_test import test_product_batch
 from tests.test_entities.product_test import test_product
 
 from tests.test_dao.category_dao_test import test_category_dao
+from tests.test_dao.customer_dao_test import test_customer_dao
 from tests.test_dao.product_dao_test import test_product_dao
 from tests.test_dao.product_batch_dao_test import test_product_batch_dao
 
@@ -39,12 +40,16 @@ def func_test_all_by_type(type: str):
                 print("(10) - Testar Classe Product\n")
                 print("(11) - Testar Todas as Classes do tipo Entidade\n")
                 print("(12) - Retornar ao Menu Principal\n")            
-                print("(13) - Finalizar Programa\n")            
                 
-                #usuario decide opcao 
+                #usuario decide opcao
+                answer =  input("Opção desejada: ")
                 try:
-                    option = int(input("Opção desejada: "))
+                    option = int(answer)
+                except ValueError:
+                    print("\nErro: Digite apenas números válidos\n")
+                    continue
 
+                try:
                     #match-case para definir o que fazer
                     match option:
                         case 1:
@@ -68,19 +73,18 @@ def func_test_all_by_type(type: str):
                         case 10:
                             func_test_entities('product')
                         case 11:
-                            print("\n========================")
-                            print("Testes das Classes Entidade")
-                            print("========================\n")
+                            print("\n=============================")
+                            print(" Testes das Classes Entidade ")
+                            print("=============================\n")
                             func_test_entities('all')
+                            return
                         case 12:
                             return
-                        case 13:
-                            break
                         case _:
                             print("Opção inválida\n") 
 
-                except ValueError:
-                    print("\nErro: Digite apenas números válidos\n")
+                except Exception as e:
+                    print(f"\n[Erro Interno as func_test_all_by_type('entity')] {e}\n")
 
         case 'dao':  
             while True:
@@ -88,7 +92,7 @@ def func_test_all_by_type(type: str):
                 print("\n----- TESTES DAS CLASSES DAO -----\n")
                 print("    MENU DE OPÇÕES\n")
                 print("(1) - Testar Classe CategoryDAO\n")
-                # print("(2) - Testar Classe \n")
+                print("(2) - Testar Classe CustomerDAO\n")
                 # print("(3) - Testar Classe \n")
                 # print("(4) - Testar Classe \n")
                 # print("(5) - Testar Classe \n")
@@ -97,18 +101,22 @@ def func_test_all_by_type(type: str):
                 print("(8) - Testar Classe ProductDAO\n")
                 print("(9) - Testar Todas as Classes do tipo DAO\n")
                 print("(10) - Retornar ao Menu Principal\n")
-                print("(11) - Finalizar o Programa\n")            
                 
                 #usuario decide opcao 
+                answer =  input("Opção desejada: ")
                 try:
-                    option = int(input("Opção desejada: "))
+                    option = int(answer)
+                except ValueError:
+                    print("\nErro: Digite apenas números válidos\n")
+                    continue
 
+                try:
                     #match-case para definir o que fazer
                     match option:
                         case 1:
                             func_test_dao('category_dao')
-                        # case 2:
-                        #     func_test_dao('customer_dao')
+                        case 2:
+                            func_test_dao('customer_dao')
                         # case 3:
                         #     func_test_dao('order_item_batch_dao')
                         # case 4:
@@ -122,120 +130,57 @@ def func_test_all_by_type(type: str):
                         case 8:
                             func_test_dao('product_dao')
                         case 9:
-                            import unicodedata
                             while True:
                                 answer = input(f"Gostaria de limpar o banco de dados a cada classe DAO testada? Recomenda-se limpar o banco a cada classe DAO testada.\n")
                                 answer = n.normalize(answer)
                                 if answer=="SIM":
                                     print("\n========================")
-                                    print("  Testes das Classes DAO  ")
+                                    print(" Testes das Classes DAO ")
                                     print("========================\n")
                                     func_test_dao('all clean')
+                                    return
                                 elif answer=="NAO":
                                     print("\n========================")
-                                    print("  Testes das Classes DAO  ")
+                                    print(" Testes das Classes DAO ")
                                     print("========================\n")
                                     func_test_dao('all not clean')
-                                print("Por favor, insira uma resposta válida.\n")
+                                    return
+                                print("\nPor favor, insira uma resposta válida.\n")
                         case 10:
                             return
-                        case 11:
-                            break
                         case _:
                             print("Opção inválida\n")
 
-                except ValueError:
-                    print("\nErro: Digite apenas números válidos\n")
+                except Exception as e:
+                    print(f"\n[Erro Interno as func_test_all_by_type('dao')] {e}\n")
 
         # case 'service':  
-        #     while True:
-        #         #apresenta o menu de opcoes
-        #         print("\n----- TESTES DAS CLASSES SERVICE -----\n")
-        #         print("    MENU DE OPÇÕES\n")
-        #         print("(1) - Testar Classe \n")
-        #         print("(2) - Testar Classe \n")
-        #         print("(3) - Testar Classe \n")
-        #         print("(4) - Testar Classe \n")
-        #         print("(5) - Testar Classe \n")
-        #         print("(6) - Testar Classe \n")
-        #         print("(7) - Testar Classe \n")
-        #         print("(8) - Testar Classe \n")
-        #         print("(9) - Testar Todas as Classes do tipo Service\n")
-        #         print("(10) - Retornar ao Programa Principal\n")
-        #         print("(10) - Finalizar Programa\n")            
-                
-        #         #usuario decide opcao 
-        #         try:
-        #             option = int(input("Opção desejada: "))
-        #         except ValueError:
-        #             print("\nErro: Digite apenas números válidos\n")
-        #             continue
 
-        #         #match-case para definir o que fazer
-        #         match option:
-        #             case 1:
-        #             case 2:
-        #             case 3:
-        #             case 4:
-        #             case 5:
-        #             case 6:
-        #             case 7:
-        #             case 8:
-        #             case 9:
-        #                 print("\n========================")
-        #                 print("Testes das Classes Service")
-        #                 print("========================\n")
-        #             case 10:
-        #                 return
-        #             case 11:
-        #                 break
-        #             case _:
-        #                 print("Opção inválida\n")
 
-        case 'all':  
+        case 'all':
+            func_test_entities('all')
             while True:
-
-                answer = input(f"Gostaria de limpar o banco de dados a cada classe DAO testada? Recomenda-se limpar o banco a cada classe DAO testada.\n")
+                answer = input(f"\nGostaria de limpar o banco de dados a cada classe DAO testada? Recomenda-se limpar o banco a cada classe DAO testada.\n")
                 answer = n.normalize(answer)
                 if answer=="SIM":
                     print("\n========================")
-                    print("Testes das Classes Entidade")
-                    print("========================\n")
-                    func_test_entities('all')
-
-                    print("\n========================")
-                    print("  Testes das Classes DAO  ")
+                    print(" Testes das Classes DAO ")
                     print("========================\n")
                     func_test_dao('all clean')
-
-                    print("\n========================")
-                    print("Testes das Classes Service")
-                    print("========================\n")
-
                     return
-                
                 elif answer=="NAO":
                     print("\n========================")
-                    print("Testes das Classes Entidade")
+                    print(" Testes das Classes DAO ")
                     print("========================\n")
-                    func_test_entities('all')
-
-                    print("\n========================")
-                    print("  Testes das Classes DAO  ")
-                    print("========================\n")
-                    func_test_entities('all not clean')
-
-                    print("\n========================")
-                    print("Testes das Classes Service")
-                    print("========================\n")
-
+                    func_test_dao('all not clean')
                     return
-                
-                print("Por favor, insira uma resposta válida.\n")
+                print("\nPor favor, insira uma resposta válida.\n")
+
 
 
 def func_test_entities(entity: str):
     """funcao para chamar os testes das classes-entidades"""
+    from tests import ask_if_continue
 
     match entity:
         case 'address':
@@ -270,14 +215,32 @@ def func_test_entities(entity: str):
             return
         case 'all':
             test_address()
+            if not ask_if_continue('Category'):
+                return
             test_category()
+            if not ask_if_continue('Customer'):
+                return
             test_customer()
+            if not ask_if_continue('Date'):
+                return
             test_date()
+            if not ask_if_continue('OrderItemBatch'):
+                return
             test_order_item_batch()
+            if not ask_if_continue('OrderItem'):
+                return
             test_order_item()
+            if not ask_if_continue('Order'):
+                return
             test_order()
+            if not ask_if_continue('Payment'):
+                return
             test_payment()
+            if not ask_if_continue('ProductBatch'):
+                return
             test_product_batch()
+            if not ask_if_continue('Product'):
+                return
             test_product()
             return
         case _:
@@ -289,7 +252,7 @@ def func_test_dao(dao: str):
     """funcao para chamar os testes das classes dao"""
 
     from banco import get_conexao, criar_tabelas, close_connection
-    from tests import ask_if_clean_bank, clean_bank
+    from tests import ask_if_clean_bank, clean_bank, ask_if_continue
 
     match dao:
         case 'category_dao':
@@ -300,6 +263,11 @@ def func_test_dao(dao: str):
             close_connection()
             return
         case 'customer_dao':
+            ask_if_clean_bank("CustomerDAO")
+            conexao = get_conexao()
+            criar_tabelas(conexao)
+            test_customer_dao(conexao)
+            close_connection()
             return
         case 'order_dao':
             return
@@ -324,18 +292,36 @@ def func_test_dao(dao: str):
             close_connection()
             return
         case 'all clean':
-            clean_bank()
-            conexao = get_conexao()
-            criar_tabelas(conexao)
-            test_category_dao(conexao)
-            test_product_batch_dao(conexao)
-            test_product_dao(conexao)
+            funcoes_teste = [
+                (test_category_dao, 'CategoryDAO'),
+                (test_customer_dao, 'CustomerDAO'),
+                (test_product_batch_dao, 'ProductBatchDAO'),
+                (test_product_dao, 'ProductDAO')
+            ]
+
+            for func in funcoes_teste:
+                if not ask_if_continue(func[1]):
+                    return
+                clean_bank()
+                conexao = get_conexao()
+                criar_tabelas(conexao)
+                func[0](conexao)
+
             return
         case 'all not clean':
             conexao = get_conexao()
             criar_tabelas(conexao)
+            if not ask_if_continue('CategoryDAO'):
+                return
             test_category_dao(conexao)
+            if not ask_if_continue('CustomerDAO'):
+                return
+            test_customer_dao(conexao)
+            if not ask_if_continue('ProductBatchDAO'):
+                return
             test_product_batch_dao(conexao)
+            if not ask_if_continue('ProductDAO'):
+                return
             test_product_dao(conexao)
             return
         case _:
