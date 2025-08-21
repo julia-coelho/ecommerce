@@ -150,8 +150,12 @@ pip install flask
 
 ## Membros
 
-Júlia Coelho Rodrigues  RA: 22408388
-Ricardo Souza Moraes    RA: 22350874
-Maria Eduarda Jardim
-Letícia Mascarenhas
-Victor Ritcheli
+Júlia Coelho Rodrigues  (Líder e Desenvolvedora BackEnd)
+
+Ricardo Souza Moraes    (Analista de Dados)
+
+Maria Eduarda Jardim    (Desenvolvedora FrontEnd)
+
+Letícia Mascarenhas     (Desenvolvedora FrontEnd)
+
+Victor Ritcheli         (Desenvolvedor BackEnd)
