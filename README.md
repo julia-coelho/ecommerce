@@ -186,4 +186,4 @@ Maria Eduarda Jardim    (Desenvolvedora FrontEnd e Documentadora)
 
 Letícia Mascarenhas     (Desenvolvedora FrontEnd)
 
-Victor Ritcheli         (Desenvolvedor BackEnd)
+Victor Rithelly         (Desenvolvedor BackEnd)
