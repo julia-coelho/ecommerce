@@ -152,9 +152,9 @@ pip install flask
 
 Júlia Coelho Rodrigues  (Líder e Desenvolvedora BackEnd)
 
-Ricardo Souza Moraes    (Analista de Dados)
+Ricardo Souza Moraes    (Analista de Dados e Tester)
 
-Maria Eduarda Jardim    (Desenvolvedora FrontEnd)
+Maria Eduarda Jardim    (Desenvolvedora FrontEnd e Documentadora)
 
 Letícia Mascarenhas     (Desenvolvedora FrontEnd)
 
