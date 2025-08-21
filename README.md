@@ -1,6 +1,6 @@
 # Ecommerce Management
 
-Projeto de gerenciamento de estoque, pedidos e clientes com base em uma arquitetura orientada a objetos, com persistência em banco de dados SQLite, testes automatizados e futura exposição via API REST (Flask) com possibilidade de integração com uma interface local em Tkinter.
+Projeto de gerenciamento de estoque, pedidos e clientes com base em uma arquitetura orientada a objetos, com persistência em banco de dados SQLite testes automatizados e futura exposição via API REST (Flask) com possibilidade de integração com uma interface local em Tkinter.
 
 ---
 
