@@ -25,6 +25,34 @@ Camada intermediária entre o DAO e a futura API. Contém regras de negócio, ve
 
 ---
 
+## 🧠 Mapa da Empatia — Cliente (Mercado Local)
+**Quem é o cliente?**  
+Um mercado de bairro que deseja digitalizar suas vendas por meio de um e-commerce próprio.  
+
+- **O que pensa e sente?**  
+  Quer expandir as vendas, facilitar a vida dos clientes e acompanhar concorrentes que já vendem online.  
+
+- **O que vê?**  
+  Clientes com rotinas corridas, muitas vezes sem tempo de ir até o mercado. Concorrência com apps de entrega já consolidados.  
+
+- **O que fala e faz?**  
+  Reclama da dificuldade de gerenciar estoque manualmente e do alcance limitado das vendas físicas. Demonstra interesse em usar tecnologia como diferencial competitivo.  
+
+- **O que ouve?**  
+  Feedback dos clientes pedindo maior praticidade. Conversas com outros comerciantes sobre digitalização e delivery.  
+
+- **Dores (problemas):**  
+  - Perda de clientes para aplicativos de entrega concorrentes.  
+  - Estoque desorganizado e falta de integração entre vendas físicas e digitais.  
+  - Custos com sistemas complexos e pouco acessíveis.  
+
+- **Ganhos (o que deseja conquistar):**  
+  - Plataforma simples para gerenciar estoque e pedidos.  
+  - Fidelização de clientes com praticidade e atendimento diferenciado.  
+  - Aumento no faturamento com vendas online.  
+
+---
+
 ## Funcionalidades já implementadas
 
 ### Entidades implementadas:
