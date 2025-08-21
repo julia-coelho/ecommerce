@@ -148,7 +148,10 @@ pip install flask
 
 ---
 
-## Autora
+## Membros
 
-Júlia Coelho Rodrigues  
-RA: 22408388
+Júlia Coelho Rodrigues  RA: 22408388
+Ricardo Souza Moraes    RA: 22350874
+Maria Eduarda Jardim
+Letícia Mascarenhas
+Victor Ritcheli
